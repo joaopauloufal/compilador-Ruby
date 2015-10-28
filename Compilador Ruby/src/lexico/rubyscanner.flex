@@ -1,10 +1,12 @@
 package lexico;
 
-
+import java_cup.runtime.*;
 import lexico.Token;
 import lexico.TokenType;
 
 %%
+
+
 
 %public
 %class RubyLexer
@@ -14,13 +16,9 @@ import lexico.TokenType;
 %char
 %type Token
 
-
 %{
-    /**
-     * Create an empty lexer, yyrset will be called later to reset and assign
-     * the reader
-     */
-    public RubyLexer() {
+
+	public RubyLexer() {
         super();
     }
 
@@ -28,8 +26,8 @@ import lexico.TokenType;
     public int yychar() {
         return yychar;
     }
-
-    private static final byte PARAN     = 1;
+	
+	private static final byte PARAN     = 1;
     private static final byte BRACKET   = 2;
     private static final byte CURLY     = 3;
     private static final byte WORD      = 4;

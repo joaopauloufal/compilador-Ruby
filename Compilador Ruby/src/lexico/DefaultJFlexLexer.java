@@ -9,15 +9,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.Segment;
 
-/**
- * This is a default, and abstract implemenatation of a Lexer using JFLex 
- * with some utility methods that Lexers can implement.
- *
- * @author Ayman Al-Sairafi
- */
-public abstract class DefaultJFlexLexer implements Lexer {
 
-    protected int tokenStart;
+
+public abstract class DefaultJFlexLexer {
+	
+	protected int tokenStart;
     protected int tokenLength;
     protected int offset;
 
@@ -81,7 +77,7 @@ public abstract class DefaultJFlexLexer implements Lexer {
      * The DefaultJFlexLexer simply calls the yylex method of a JFLex compatible
      * Lexer and adds the tokens obtained to an ArrayList.
      */
-    @Override
+
     public void parse(Segment segment, int ofst, List<Token> tokens) {
         try {
             CharArrayReader reader = new CharArrayReader(segment.array, segment.offset, segment.count);
@@ -143,5 +139,6 @@ public abstract class DefaultJFlexLexer implements Lexer {
      * @return 
      */
     public abstract int yychar();
-}
 
+
+}

@@ -1,13 +1,8 @@
 package lexico;
 
-/**
- * These are the various token types supported by JSyntaxPane.
- * 
- * @author ayman
- */
 public enum TokenType {
-
-    OPERATOR, // Language operators
+	
+	OPERATOR, // Language operators
     DELIMITER, // Delimiters.  Constructs that are not necessarily operators for a language
     KEYWORD, // language reserved keywords
     KEYWORD2, // Other language reserved keywords, like C #defines
@@ -25,13 +20,8 @@ public enum TokenType {
     DEFAULT,    // any other text
     WARNING,    // Text that should be highlighted as a warning
     ERROR;      // Text that signals an error
-
-    /**
-     * Tests if the given token is a Comment Token.
-     * @param t
-     * @return
-     */
-    public static boolean isComment(Token t) {
+	
+	public static boolean isComment(Token t) {
         if (t != null && (t.type == COMMENT || t.type == COMMENT2)) {
             return true;
         } else {
@@ -65,6 +55,8 @@ public enum TokenType {
             return false;
         }
     }
+
+    
+
+
 }
-
-

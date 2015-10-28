@@ -2,9 +2,9 @@
 
 package lexico;
 
-import java_cup.runtime.*;
-import jsyntaxpane.Token;
-import jsyntaxpane.TokenType;
+
+import lexico.Token;
+import lexico.TokenType;
 
 
 /**

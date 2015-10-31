@@ -1,108 +1,97 @@
 package lexico;
 
-import java.io.Serializable;
-
-public class Token implements Serializable, Comparable {
+public class Token {
 	
-	public final TokenType type;
-    public final int start;
-    public final int length;
-    /**
-     * the pair value to use if this token is one of a pair:
-     * This is how it is used:
-     * The openning part will have a positive number X
-     * The closing part will have a negative number X
-     * X should be unique for a pair:
-     *   e.g. for [ pairValue = +1
-     *        for ] pairValue = -1
-     */
-    public final byte pairValue;
-    /**
-     * The kind of the Document.  This is only needed if proper Parsing
-     * of a document is needed and it makes certain operations faster.
-     * You can use any of the supplied Generic Values, or create your
-     * language specific uses by using USER_FIRST + x;
-     */
-    public final short kind = 0;
-
-    /**
-     * Constructs a new token
-     * @param type
-     * @param start
-     * @param length
-     */
-    public Token(TokenType type, int start, int length) {
-        this.type = type;
-        this.start = start;
-        this.length = length;
-        this.pairValue = 0;
-    }
-
-    /**
-     * Construct a new part of pair token
-     * @param type
-     * @param start
-     * @param length
-     * @param pairValue
-     */
-    public Token(TokenType type, int start, int length, byte pairValue) {
-        this.type = type;
-        this.start = start;
-        this.length = length;
-        this.pairValue = pairValue;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Object) {
-            Token token = (Token) obj;
-            return ((this.start == token.start) &&
-                    (this.length == token.length) &&
-                    (this.type.equals(token.type)));
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return start;
-    }
-
-    @Override
-    public String toString() {
-        if (pairValue == 0) {
-            return String.format("%s (%d, %d)", type, start, length);
-        } else {
-            return String.format("%s (%d, %d) (%d)", type, start, length, pairValue);
-        }
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        Token t = (Token) o;
-        if (this.start != t.start) {
-            return (this.start - t.start);
-        } else if (this.length != t.length) {
-            return (this.length - t.length);
-        } else {
-            return this.type.compareTo(t.type);
-        }
-    }
-
-    /**
-     * return the end position of the token.
-     * @return start + length
-     */
-    public int end() {
-        return start + length;
-    }
-
-    /**
-     * Get the text of the token from this document
-     * @param doc
-     * @return
-     */
-
+	public static final int EOF = 0; // Esse atributo é reservado para o analisador.
+	public static final int BEGIN_MAIUSCULO = 1;
+	public static final int ENSURE = 2;
+	public static final int ASSERT = 3;
+	public static final int SELF = 4;
+	public static final int WHEN = 5;
+	public static final int END_MAIUSCULO = 6;
+	public static final int FALSE = 7;
+	public static final int NOT = 8;
+	public static final int SUPER = 9;
+	public static final int ALIAS = 10;
+	public static final int DEFINED = 11;
+	public static final int OR = 12;
+	public static final int THEN = 13;
+	public static final int YIELD = 14;
+	public static final int AND = 15;
+	public static final int REDO = 16;
+	public static final int TRUE = 17;
+	public static final int ELSE = 18;
+	public static final int IN = 19;
+	public static final int RESCUE = 20;
+	public static final int UNDEF = 21;
+	public static final int BREAK = 22;
+	public static final int ELSIF = 23;
+	public static final int MODULE = 24;
+	public static final int RETRY = 25;
+	public static final int UNLESS = 26;
+	public static final int NEXT = 27;
+	public static final int RETURN = 28;
+	public static final int BEGIN_MINUSCULO = 29;
+	public static final int CASE = 30;
+	public static final int CLASS = 31;
+	public static final int DEF = 32;
+	public static final int FOR = 33;
+	public static final int WHILE = 34;
+	public static final int UNTIL = 35;
+	public static final int DO = 36;
+	public static final int IF = 37;
+	public static final int END_MINUSCULO = 38;
+	public static final int PARENTESE_ABERTURA = 39;
+	public static final int PARENTESE_FECHAMENTO = 40;
+	public static final int CHAVE_ABERTURA = 41;
+	public static final int CHAVE_FECHAMENTO = 42;
+	public static final int COLCHETE_ABERTURA = 43;
+	public static final int COLCHETE_FECHAMENTO = 44;
+	public static final int MAIS = 45;
+	public static final int MENOS = 46;
+	public static final int VEZES = 47;
+	public static final int VEZES_VEZES = 48;
+	public static final int BARRA = 49;
+	public static final int BARRA_BARRA = 50;
+	public static final int PORCENTAGEM = 51;
+	public static final int MENOR_MENOR = 52;
+	public static final int MAIOR_MAIOR = 53;
+	public static final int E_COMERCIAL = 54;
+	public static final int BARRA_VERTICAL = 55;
+	public static final int POTENCIACAO = 56;
+	public static final int TIL = 57;
+	public static final int MENOR = 58;
+	public static final int MAIOR = 59;
+	public static final int MENOR_OU_IGUAL = 60;
+	public static final int MAIOR_OU_IGUAL = 61;
+	public static final int IGUAL_IGUAL = 62;
+	public static final int DIFERENTE1 = 63;
+	public static final int DIFERENTE2 = 64;
+	public static final int ARROBA = 65;
+	public static final int VIRGULA = 66;
+	public static final int DOIS_PONTOS = 67;
+	public static final int PONTO = 68;
+	public static final int DOIS_PONTOS2 = 69;
+	public static final int APOSTROFO = 70;
+	public static final int ATRIBUICAO = 71;
+	public static final int PONTO_E_VIRGULA = 72;
+	public static final int INCREMENTO = 73;
+	public static final int DECREMENTO = 74;
+	public static final int INCREMENTO_MULTIP = 75;
+	public static final int INCREMENTO_DIVISAO = 76;
+	public static final int INCREMENTO_DIVISAO_DIVISAO = 77;
+	public static final int PORCENTAGEM_IGUAL = 78;
+	public static final int E_COMERCIAL_IGUAL = 79;
+	public static final int BARRA_VERTICAL_IGUAL = 80;
+	public static final int PONTENCIACAO_IGUAL = 81;
+	public static final int MAIOR_MAIOR_IGUAL = 82;
+	public static final int MENOR_MENOR_IGUAL = 83;
+	public static final int MULTIP_MULTIP_IGUAL = 84;
+	public static final int COMENTARIO = 85;
+	public static final int NUMERO = 86;
+	public static final int IDENTIFICADOR = 87;
+	public static final int TIPO2 = 88;
+	public static final int PUTS = 89;
+	
 
 }

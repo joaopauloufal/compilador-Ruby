@@ -15,8 +15,8 @@ public class Main {
 			RubyLexer scanner = new RubyLexer(new FileReader("arquivo.txt"));
 			Symbol token = scanner.next_token();
 			while (token != null){
+				System.out.println("ID: "+ token + " - " + scanner.yytext());
 				token = scanner.next_token();
-				System.out.println(token);
 				
 			}
 			

@@ -1,0 +1,58 @@
+package sintatico;
+import java_cup.runtime.*;
+
+parser code /**Código para erros de sintaxe.*/
+{:
+    /**Método que é chamado automaticamente antes de um erro de sintaxe.*/
+    public void syntax_error(Symbol s){
+        System.out.println("Error na linha " + (s.right+1) +" Coluna "+s.left+ ". ID "
+        +s.value + " não reconhecido." );
+    }
+
+    /**Método que é chamado quando não é possível a recuperação de erros.*/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.out.println("Error na linha " + (s.right+1)+ "Coluna "+s.left+". ID " +
+        s.value + " não reconhecido.");
+    }
+:}
+
+action code
+{:
+/** Aqui podemos adicionar código JAVA */
+:}
+
+
+/* Aqui espeficicamos os terminais da linguagem. */
+terminal EOF, BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT, SUPER, ALIAS, DEFINED, OR, THEN, YIELD, AND, REDO, TRUE, ELSE, IN, RESCUE, UNDEF, BREAK, ELSIF, MODULE, RETRY, UNLESS, NEXT, RETURN, BEGIN_MINUSCULO, CASE, CLASS, DEF, FOR, WHILE, UNTIL, DO, IF, END_MINUSCULO, PARENTESE_ABERTURA, PARENTESE_FECHAMENTO, CHAVE_ABERTURA, CHAVE_FECHAMENTO,CHAVE_ABERTURA, CHAVE_FECHAMENTO, COLCHETE_ABERTURA, COLCHETE_FECHAMENTO, MAIS, MENOS, VEZES, VEZES_VEZES, BARRA, BARRA_BARRA, PORCENTAGEM, MENOR_MENOR, MAIOR_MAIOR, E_COMERCIAL, BARRA_VERTICAL, POTENCIACAO, TIL, MENOR,  MAIOR, MENOR_OU_IGUAL, MAIOR_OU_IGUAL, IGUAL_IGUAL, DIFERENTE1, DIFERENTE2, ARROBA, VIRGULA, DOIS_PONTOS , PONTO, DOIS_PONTOS2, APOSTROFO, ATRIBUICAO, PONTO_E_VIRGULA, INCREMENTO, DECREMENTO, INCREMENTO_MULTIP, INCREMENTO_DIVISAO, INCREMENTO_DIVISAO_DIVISAO, PORCENTAGEM_IGUAL, E_COMERCIAL_IGUAL, BARRA_VERTICAL_IGUAL, PONTENCIACAO_IGUAL, MAIOR_MAIOR_IGUAL, MENOR_MENOR_IGUAL, MULTIP_MULTIP_IGUAL, COMENTARIO, NUMERO, IDENTIFICADOR, TIPO2, PUTS, STRING;
+
+
+/*
+* Este terminal tem um valor de STRING. Lembre-se que damos para ele um valor
+* no código do analizador léxico, ao dar como parâmetro um valor STRING ao objeto TOKEN.
+*/
+terminal Integer numero;
+
+/*
+* Aquí están los no terminales
+*/
+non terminal            EXPR_LIST, EXPR_PART;
+non terminal Integer    EXPR;
+
+/* Precedences */
+precedence left mas, menos;
+precedence left mul, div;
+
+/* ­­­­­­­­­­­­­­ Declaración de la gramática  ­­­­­­­­­­­ */
+start with EXPR_LIST; // start with sirve para indicarle al parser con que produccion empezar
+
+EXPR_LIST ::= EXPR_LIST EXPR_PART
+              |EXPR_PART;
+
+EXPR_PART ::= EXPR:e {: System.out.println("Resultado = "+e); :}  pcoma;
+
+EXPR ::= EXPR:e1 mas EXPR:e2 {: RESULT = new Integer(e1.intValue()+e2.intValue()); :}
+        |EXPR:e1 menos EXPR:e2 {: RESULT = new Integer(e1.intValue()-e2.intValue()); :}
+        |EXPR:e1 mul EXPR:e2 {: RESULT = new Integer(e1.intValue()*e2.intValue()); :}
+        |EXPR:e1 div EXPR:e2 {: RESULT = new Integer(e1.intValue()/e2.intValue()); :}              
+	|abrir EXPR:e cerrar {: RESULT = e; :} 
+	|numero:n {: RESULT = n; :};

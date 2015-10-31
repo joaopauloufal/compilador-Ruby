@@ -92,6 +92,7 @@ public class Token {
 	public static final int IDENTIFICADOR = 87;
 	public static final int TIPO2 = 88;
 	public static final int PUTS = 89;
+	public static final int STRING = 90;
 	
 
 }

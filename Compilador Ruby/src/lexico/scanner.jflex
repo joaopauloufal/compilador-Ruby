@@ -4,12 +4,18 @@ import java_cup.runtime.*;
 %%
 
 %cupsym Token
+%public
 %class RubyLexer
 %cup
-%public
 %unicode
 %line
 %char
+
+%{
+
+	StringBuffer string = new StringBuffer();
+
+%}
 
 FimDeLinha = \r|\n|\r\n
 EntradaDetexto = [^\r\n]
@@ -39,7 +45,15 @@ FLit2    = \. [0-9]+
 FLit3    = [0-9]+
 Expoente = [eE] [+-]? [0-9]+
 
+StringCaractere = [^\r\n\"\\]
+
+
+%state STRING
+
 %%
+
+
+<YYINITIAL> {
 
   "BEGIN"                      { return new Symbol(Token.BEGIN_MAIUSCULO, yychar, yyline); }
   "ensure"                     { return new Symbol(Token.ENSURE, yychar, yyline); }
@@ -130,6 +144,11 @@ Expoente = [eE] [+-]? [0-9]+
   "<<="                        { return new Symbol(Token.MENOR_MENOR_IGUAL, yychar, yyline); }
   "**="                        { return new Symbol(Token.MULTIP_MULTIP_IGUAL, yychar, yyline); }
   
+  \"                             { string.setLength(0); yybegin(STRING); }
+  
+
+  
+  
   {LiteralDecimalInteiro}		|
   {LiteralDecinalLong}			|
   {LiteralInteiroHexadecimal}	|
@@ -145,6 +164,30 @@ Expoente = [eE] [+-]? [0-9]+
   
   {Identificador}"?"			{ return new Symbol(Token.TIPO2, yychar, yyline); }				
   {Identificador}				{ return new Symbol(Token.IDENTIFICADOR, yychar, yyline); }
+  
+}
+
+
+<STRING> {
+
+	\"							{
+	
+									yybegin(YYINITIAL);
+									return new Symbol(Token.STRING, string.toString());
+									
+						
+								}
+								
+	{StringCaractere}+			{ string.append(yytext()); }
+	
+	
+	\\\" 						{ string.append('\"'); }
+	
+	
+	\\                          { string.append('\\'); }
+	{FimDeLinha}				{ yybegin(YYINITIAL); }
+
+}
   
   
 

@@ -3,6 +3,8 @@ package app;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import java_cup.runtime.Symbol;
 import lexico.RubyLexer;
 
 public class Main {
@@ -11,7 +13,12 @@ public class Main {
 		
 		try {
 			RubyLexer scanner = new RubyLexer(new FileReader("arquivo.txt"));
-			System.out.println(scanner.next_token());
+			Symbol token = scanner.next_token();
+			while (token != null){
+				token = scanner.next_token();
+				System.out.println(token);
+				
+			}
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

@@ -143,8 +143,9 @@ StringCaractere = [^\r\n\"\\]
   ">>="                        { return new Symbol(Token.MAIOR_MAIOR_IGUAL, yychar, yyline); }
   "<<="                        { return new Symbol(Token.MENOR_MENOR_IGUAL, yychar, yyline); }
   "**="                        { return new Symbol(Token.MULTIP_MULTIP_IGUAL, yychar, yyline); }
+  "\n"						   { return new Symbol(Token.QUEBRA_DE_LINHA, yychar, yyline); }
   
-  \"                             { string.setLength(0); yybegin(STRING); }
+  \"                           { string.setLength(0); yybegin(STRING); }
   
 
   

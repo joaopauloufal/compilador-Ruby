@@ -1,6 +1,2 @@
-for item in array
-  puts "dsad" # Comentário
-end
-if
-else
-& 
+a = "dsdd"
+puts "fds"

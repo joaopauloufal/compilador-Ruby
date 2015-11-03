@@ -2,14 +2,16 @@ package app;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
-import java_cup.runtime.Symbol;
 import lexico.RubyLexer;
+
+import sintatico.RubyParser;
 
 public class Main {
 
 	public static void main(String[] args) {
+		
+		/*
 		
 		try {
 			RubyLexer scanner = new RubyLexer(new FileReader("arquivo.txt"));
@@ -28,6 +30,17 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		*/
+		
+		try {
+			new RubyParser(new RubyLexer(new FileReader("arquivo.txt"))).parse();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
 
 	}

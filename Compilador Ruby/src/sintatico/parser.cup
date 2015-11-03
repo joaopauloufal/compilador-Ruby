@@ -1,58 +1,63 @@
 package sintatico;
 import java_cup.runtime.*;
 
-parser code /**CÛdigo para erros de sintaxe.*/
+
+
+
+parser code /**C√≥digo para erros de sintaxe.*/
 {:
-    /**MÈtodo que È chamado automaticamente antes de um erro de sintaxe.*/
+
+	
+
+    /**M√©todo que √© chamado automaticamente antes de um erro de sintaxe.*/
     public void syntax_error(Symbol s){
-        System.out.println("Error na linha " + (s.right+1) +" Coluna "+s.left+ ". ID "
-        +s.value + " n„o reconhecido." );
+        System.out.println("Erro na linha " + (s.right+1) +", Coluna "+s.left+ ". ID "
+        +s.value + " n√£o reconhecido." );
     }
 
-    /**MÈtodo que È chamado quando n„o È possÌvel a recuperaÁ„o de erros.*/
+    /**M√©todo que √© chamado quando n√£o √© poss√≠vel a recupera√ß√£o de erros.*/
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
-        System.out.println("Error na linha " + (s.right+1)+ "Coluna "+s.left+". ID " +
-        s.value + " n„o reconhecido.");
+        System.out.println("Falha na compila√ß√£o.");
     }
 :}
 
+
 action code
 {:
-/** Aqui podemos adicionar cÛdigo JAVA */
+/** Aqui podemos adicionar c√≥digo JAVA */
 :}
 
 
 /* Aqui espeficicamos os terminais da linguagem. */
-terminal EOF, BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT, SUPER, ALIAS, DEFINED, OR, THEN, YIELD, AND, REDO, TRUE, ELSE, IN, RESCUE, UNDEF, BREAK, ELSIF, MODULE, RETRY, UNLESS, NEXT, RETURN, BEGIN_MINUSCULO, CASE, CLASS, DEF, FOR, WHILE, UNTIL, DO, IF, END_MINUSCULO, PARENTESE_ABERTURA, PARENTESE_FECHAMENTO, CHAVE_ABERTURA, CHAVE_FECHAMENTO,CHAVE_ABERTURA, CHAVE_FECHAMENTO, COLCHETE_ABERTURA, COLCHETE_FECHAMENTO, MAIS, MENOS, VEZES, VEZES_VEZES, BARRA, BARRA_BARRA, PORCENTAGEM, MENOR_MENOR, MAIOR_MAIOR, E_COMERCIAL, BARRA_VERTICAL, POTENCIACAO, TIL, MENOR,  MAIOR, MENOR_OU_IGUAL, MAIOR_OU_IGUAL, IGUAL_IGUAL, DIFERENTE1, DIFERENTE2, ARROBA, VIRGULA, DOIS_PONTOS , PONTO, DOIS_PONTOS2, APOSTROFO, ATRIBUICAO, PONTO_E_VIRGULA, INCREMENTO, DECREMENTO, INCREMENTO_MULTIP, INCREMENTO_DIVISAO, INCREMENTO_DIVISAO_DIVISAO, PORCENTAGEM_IGUAL, E_COMERCIAL_IGUAL, BARRA_VERTICAL_IGUAL, PONTENCIACAO_IGUAL, MAIOR_MAIOR_IGUAL, MENOR_MENOR_IGUAL, MULTIP_MULTIP_IGUAL, COMENTARIO, NUMERO, IDENTIFICADOR, TIPO2, PUTS, STRING;
+terminal BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT, SUPER, ALIAS, DEFINED, OR, THEN, YIELD , AND, REDO, TRUE,
+	ELSE, IN, RESCUE, UNDEF, BREAK, ELSIF, MODULE, RETRY, UNLESS, NEXT, RETURN, BEGIN_MINUSCULO, CLASS, DEF, FOR, WHILE, UNTIL, DO, IF, END_MINUSCULO,
+	PARENTESE_ABERTURA, PARENTESE_FECHAMENTO, CHAVE_ABERTURA, CHAVE_FECHAMENTO, COLCHETE_ABERTURA, COLCHETE_FECHAMENTO, MAIS, MENOS, VEZES, BARRA,
+	BARRA_BARRA, PORCENTAGEM, MENOR_MENOR, MAIOR_MAIOR, E_COMERCIAL, BARRA_VERTICAL, POTENCIACAO, TIL, MENOR, MAIOR, MENOR_OU_IGUAL, MAIOR_OU_IGUAL,
+	IGUAL_IGUAL, DIFERENTE1, DIFERENTE2, ARROBA, VIRGULA, DOIS_PONTOS, PONTO, DOIS_PONTOS2, APOSTROFO, ATRIBUICAO, PONTO_E_VIRGULA, INCREMENTO,
+	DECREMENTO, INCREMENTO_MULTIP, INCREMENTO_DIVISAO, INCREMENTO_DIVISAO_DIVISAO, PORCENTAGEM_IGUAL, E_COMERCIAL_IGUAL, BARRA_VERTICAL_IGUAL, PONTENCIACAO_IGUAL,
+	MAIOR_MAIOR_IGUAL, MENOR_MENOR_IGUAL, MULTIP_MULTIP_IGUAL, COMENTARIO, NUMERO, IDENTIFICADOR, TIPO2, PUTS, STRING, QUEBRA_DE_LINHA, CASE, VEZES_VEZES;
+
 
 
 /*
-* Este terminal tem um valor de STRING. Lembre-se que damos para ele um valor
-* no cÛdigo do analizador lÈxico, ao dar como par‚metro um valor STRING ao objeto TOKEN.
+* Aqui est√£o os n√£o-terminais
+
+start with program;
 */
-terminal Integer numero;
+non terminal program;
+non terminal codigo, codigo_puts, identificador;
 
-/*
-* AquÌ est·n los no terminales
-*/
-non terminal            EXPR_LIST, EXPR_PART;
-non terminal Integer    EXPR;
 
-/* Precedences */
-precedence left mas, menos;
-precedence left mul, div;
+/* Precedencias */
+precedence left MAIS, MENOS;
+precedence left VEZES, BARRA;
 
-/* ≠≠≠≠≠≠≠≠≠≠≠≠≠≠ DeclaraciÛn de la gram·tica  ≠≠≠≠≠≠≠≠≠≠≠ */
-start with EXPR_LIST; // start with sirve para indicarle al parser con que produccion empezar
+/*  Declara√ß√£o da gram√°tica  */
 
-EXPR_LIST ::= EXPR_LIST EXPR_PART
-              |EXPR_PART;
+program ::= codigo;
+codigo ::= codigo_puts | identificador;
+identificador ::= IDENTIFICADOR ATRIBUICAO STRING:n {: System.out.println(n); :};
 
-EXPR_PART ::= EXPR:e {: System.out.println("Resultado = "+e); :}  pcoma;
+codigo_puts ::= PUTS STRING:s {: System.out.println(s); :};
 
-EXPR ::= EXPR:e1 mas EXPR:e2 {: RESULT = new Integer(e1.intValue()+e2.intValue()); :}
-        |EXPR:e1 menos EXPR:e2 {: RESULT = new Integer(e1.intValue()-e2.intValue()); :}
-        |EXPR:e1 mul EXPR:e2 {: RESULT = new Integer(e1.intValue()*e2.intValue()); :}
-        |EXPR:e1 div EXPR:e2 {: RESULT = new Integer(e1.intValue()/e2.intValue()); :}              
-	|abrir EXPR:e cerrar {: RESULT = e; :} 
-	|numero:n {: RESULT = n; :};
+

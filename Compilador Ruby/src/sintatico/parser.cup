@@ -44,8 +44,7 @@ terminal BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT,
 
 start with program;
 */
-non terminal program;
-non terminal codigo, codigo_puts, identificador;
+non terminal program, codigo, condicao, expr, arg;
 
 
 /* Precedencias */
@@ -55,9 +54,15 @@ precedence left VEZES, BARRA;
 /*  Declaração da gramática  */
 
 program ::= codigo;
-codigo ::= codigo_puts | identificador;
-identificador ::= IDENTIFICADOR ATRIBUICAO STRING:n {: System.out.println(n); :};
+codigo ::= condicao END_MINUSCULO;
 
-codigo_puts ::= PUTS STRING:s {: System.out.println(s); :};
+condicao ::= IF expr QUEBRA_DE_LINHA;
 
+
+
+expr ::= arg MAIOR arg
+		| arg MENOR arg
+		;
+		
+arg ::= IDENTIFICADOR | NUMERO;
 

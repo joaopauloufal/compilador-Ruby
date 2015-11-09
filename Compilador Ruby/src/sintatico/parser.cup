@@ -44,7 +44,7 @@ terminal BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT,
 
 start with program;
 */
-non terminal program, codigo, condicao, expr, arg;
+non terminal program, codigo, condicao, expr, arg, variavel;
 
 
 /* Precedencias */
@@ -54,9 +54,11 @@ precedence left VEZES, BARRA;
 /*  Declaração da gramática  */
 
 program ::= codigo;
-codigo ::= condicao END_MINUSCULO;
+codigo ::= condicao
+		| variavel
+		| "";
 
-condicao ::= IF expr QUEBRA_DE_LINHA;
+condicao ::= IF expr QUEBRA_DE_LINHA codigo QUEBRA_DE_LINHA END_MINUSCULO;
 
 
 
@@ -65,4 +67,6 @@ expr ::= arg MAIOR arg
 		;
 		
 arg ::= IDENTIFICADOR | NUMERO;
+
+variavel ::= IDENTIFICADOR ATRIBUICAO NUMERO;
 

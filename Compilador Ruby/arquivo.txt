@@ -1,17 +1,16 @@
-if 2 > 3
-a = 3
+for a in 2 .. 8
+if a > 2
+b = 444
+end
+end
+if a > 2
+b = 40
 end
 
-if 2 > 3
-a = 3
-end
+b = 40
 
-if 2 > 3
-a = 3
-end
-if 2 > 3
-hvfv = 32232
-end
-if 2 < sdvcsd
-a = 44444
+t = 2
+
+while i < num  do
+   c = 99999
 end

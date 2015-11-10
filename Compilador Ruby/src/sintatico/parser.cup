@@ -44,30 +44,42 @@ terminal BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT,
 
 start with program;
 */
-non terminal program, codigo, condicao, expr, arg, variavel;
+non terminal program, codigo, condicao, expr, arg, variavel, repeticao_for, expr_for, repeticao_while;
 
 
 /* Precedencias */
 precedence left MAIS, MENOS;
 precedence left VEZES, BARRA;
 
-/*  Declaração da gramática  */
+/*  Declaracao da gramatica  */
 
 program ::= codigo;
 codigo ::= condicao codigo
-		| variavel
+		| repeticao_for codigo
+		| repeticao_while codigo		
+		| variavel codigo
 		| "";
 
-//condicao ::= IF expr QUEBRA_DE_LINHA codigo QUEBRA_DE_LINHA END_MINUSCULO;// N�o funcionando devido ao QUEBRA_DE_LINHA
+//condicao ::= IF expr QUEBRA_DE_LINHA codigo QUEBRA_DE_LINHA END_MINUSCULO;// Nao funcionando devido ao QUEBRA_DE_LINHA
 
+
+//Gramaticas Condicao, repeticao_for, repeticao_while
 condicao ::= IF expr codigo END_MINUSCULO;// Funcionando sem o QUEBRA_DE_LINHA
 
 
+repeticao_for ::= FOR expr_for codigo END_MINUSCULO;
+
+repeticao_while ::= WHILE expr DO codigo END_MINUSCULO;
+
+//Gramaticas complementares
 expr ::= arg MAIOR arg
 		| arg MENOR arg
 		;
 		
+expr_for ::= IDENTIFICADOR IN NUMERO DOIS_PONTOS2 NUMERO;
+				
+		
 arg ::= IDENTIFICADOR | NUMERO;
 
-variavel ::= IDENTIFICADOR ATRIBUICAO NUMERO;
+variavel ::= IDENTIFICADOR ATRIBUICAO NUMERO | STRING;
 

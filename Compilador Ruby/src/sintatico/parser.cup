@@ -70,7 +70,7 @@ cod_condicao ::= ELSIF expr codigo cod_condicao
 		|ELSE codigo
 		|"";
 
-repeticao_for ::= FOR expr_for codigo END_MINUSCULO;
+repeticao_for ::= FOR expr_for codigo END_MINUSCULO;// Tem que ter o espcao entre os dois pontos. Ex.: 0 .. 5
 
 repeticao_while ::= WHILE expr DO codigo END_MINUSCULO;
 
@@ -80,7 +80,7 @@ expr ::= arg MAIOR arg
 		;
 		
 expr_for ::= IDENTIFICADOR IN NUMERO DOIS_PONTOS2 NUMERO;
-				
+
 		
 arg ::= IDENTIFICADOR | NUMERO;
 

@@ -1,3 +1,8 @@
+for i in 0 .. 5
+a = 666
+end
+
+
 x=1
 if x > 2
    c = 99999
@@ -6,7 +11,10 @@ y = 99999
 end
 
 if x > 2
-   c = 99999
+	for i in 0 .. 5
+	a = 666
+	end
+
 elsif x > 2
    c = 99999
 elsif vdsvsa > 8
@@ -18,5 +26,14 @@ elsif x > 2
 elsif vdsvsa > 8
    c = 99999
 elsif vdsvsa > 8
-   c = 99999
-   end
+   while i < num  do
+	a = 9
+	end
+end
+   
+
+
+while i < num  do
+a = 9
+end
+

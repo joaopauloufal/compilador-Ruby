@@ -54,12 +54,13 @@ precedence left VEZES, BARRA;
 /*  Declaração da gramática  */
 
 program ::= codigo;
-codigo ::= condicao
+codigo ::= condicao codigo
 		| variavel
 		| "";
 
-condicao ::= IF expr QUEBRA_DE_LINHA codigo QUEBRA_DE_LINHA END_MINUSCULO;
+//condicao ::= IF expr QUEBRA_DE_LINHA codigo QUEBRA_DE_LINHA END_MINUSCULO;// N�o funcionando devido ao QUEBRA_DE_LINHA
 
+condicao ::= IF expr codigo END_MINUSCULO;// Funcionando sem o QUEBRA_DE_LINHA
 
 
 expr ::= arg MAIOR arg

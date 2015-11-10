@@ -44,7 +44,7 @@ terminal BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT,
 
 start with program;
 */
-non terminal program, codigo, condicao, expr, arg, variavel, repeticao_for, expr_for, repeticao_while;
+non terminal program, codigo, condicao, cod_condicao, expr, arg, variavel, repeticao_for, expr_for, repeticao_while;
 
 
 /* Precedencias */
@@ -64,8 +64,11 @@ codigo ::= condicao codigo
 
 
 //Gramaticas Condicao, repeticao_for, repeticao_while
-condicao ::= IF expr codigo END_MINUSCULO;// Funcionando sem o QUEBRA_DE_LINHA
+condicao ::= IF expr codigo cod_condicao END_MINUSCULO;// Funcionando sem o QUEBRA_DE_LINHA
 
+cod_condicao ::= ELSIF expr codigo cod_condicao
+		|ELSE codigo
+		|"";
 
 repeticao_for ::= FOR expr_for codigo END_MINUSCULO;
 

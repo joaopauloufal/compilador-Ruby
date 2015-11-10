@@ -1,7 +1,7 @@
 for i in 0 .. 5
 a = 666
 end
-
+class Restaurante
 def method_name (var1, var2)
    a = 8
    if x > 2
@@ -13,7 +13,7 @@ def method_name (var1, var2)
 a = 9
 end
 end
-
+end
 
 x=1
 if x > 2

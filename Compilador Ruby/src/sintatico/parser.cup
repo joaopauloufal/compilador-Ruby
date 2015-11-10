@@ -44,7 +44,7 @@ terminal BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT,
 
 start with program;
 */
-non terminal program, codigo, condicao, cod_condicao, expr, arg, variavel, repeticao_for, expr_for, repeticao_while;
+non terminal program, codigo, condicao, cod_condicao, expr, arg, variavel, repeticao_for, expr_for, repeticao_while, funcao, identificadores_funcao;
 
 
 /* Precedencias */
@@ -56,7 +56,8 @@ precedence left VEZES, BARRA;
 program ::= codigo;
 codigo ::= condicao codigo
 		| repeticao_for codigo
-		| repeticao_while codigo		
+		| repeticao_while codigo
+		| funcao codigo		
 		| variavel codigo
 		| "";
 
@@ -74,6 +75,11 @@ repeticao_for ::= FOR expr_for codigo END_MINUSCULO;// Tem que ter o espcao entr
 
 repeticao_while ::= WHILE expr DO codigo END_MINUSCULO;
 
+funcao ::= DEF IDENTIFICADOR PARENTESE_ABERTURA identificadores_funcao PARENTESE_FECHAMENTO codigo END_MINUSCULO;
+
+//funcao ::= DEF IDENTIFICADOR PARENTESE_ABERTURA;
+
+
 //Gramaticas complementares
 expr ::= arg MAIOR arg
 		| arg MENOR arg
@@ -81,6 +87,8 @@ expr ::= arg MAIOR arg
 		
 expr_for ::= IDENTIFICADOR IN NUMERO DOIS_PONTOS2 NUMERO;
 
+identificadores_funcao ::= IDENTIFICADOR VIRGULA identificadores_funcao
+		| IDENTIFICADOR;
 		
 arg ::= IDENTIFICADOR | NUMERO;
 

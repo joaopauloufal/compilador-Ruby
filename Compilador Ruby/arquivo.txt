@@ -11,9 +11,9 @@ class Restaurante
 		else
 			y = 99999
 	   end
-		while i < num  do
-			a = 9
-		end
+	   while i < num do
+		  a = 9
+	   end
 	end
 end
 

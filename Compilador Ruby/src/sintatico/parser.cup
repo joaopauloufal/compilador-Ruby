@@ -24,12 +24,20 @@ parser code /**Código para erros de sintaxe.*/
 
 action code
 {:
-/** Aqui podemos adicionar código JAVA */
+
+  int inc = 0;
+
+  public String quebraDeLinha(){
+  
+  	return "\n";
+  
+  }
 :}
 
 
 /* Aqui espeficicamos os terminais da linguagem. */
-terminal BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT, SUPER, ALIAS, DEFINED, OR, THEN, YIELD , AND, REDO, TRUE,
+terminal
+ BEGIN_MAIUSCULO, ENSURE, ASSERT, SELF, WHEN, END_MAIUSCULO, FALSE, NOT, SUPER, ALIAS, DEFINED, OR, THEN, YIELD , AND, REDO, TRUE,
 	ELSE, IN, RESCUE, UNDEF, BREAK, ELSIF, MODULE, RETRY, UNLESS, NEXT, RETURN, BEGIN_MINUSCULO, CLASS, DEF, FOR, WHILE, UNTIL, DO, IF, END_MINUSCULO,
 	PARENTESE_ABERTURA, PARENTESE_FECHAMENTO, CHAVE_ABERTURA, CHAVE_FECHAMENTO, COLCHETE_ABERTURA, COLCHETE_FECHAMENTO, MAIS, MENOS, VEZES, BARRA,
 	BARRA_BARRA, PORCENTAGEM, MENOR_MENOR, MAIOR_MAIOR, E_COMERCIAL, BARRA_VERTICAL, POTENCIACAO, TIL, MENOR, MAIOR, MENOR_OU_IGUAL, MAIOR_OU_IGUAL,
@@ -63,23 +71,21 @@ codigo ::= condicao codigo
 		| variavel codigo
 		| "";
 
-//condicao ::= IF expr QUEBRA_DE_LINHA codigo QUEBRA_DE_LINHA END_MINUSCULO;// Nao funcionando devido ao QUEBRA_DE_LINHA
-
 
 //Gramaticas Condicao, repeticao_for, repeticao_while, funcao, classe
-condicao ::= IF {: System.out.print("if "); :} expr {: System.out.print("\t"); :} codigo {: System.out.println(""); :} cod_condicao END_MINUSCULO {: System.out.println("end"); :};// Funcionando sem o QUEBRA_DE_LINHA
+condicao ::= IF expr codigo {: System.out.println("CONDIÇÃO"); :} cod_condicao END_MINUSCULO;// Funcionando sem o QUEBRA_DE_LINHA
 
-cod_condicao ::= ELSIF {: System.out.print("elsif "); :} expr {: System.out.print("\t"); :} codigo {: System.out.println(""); :} cod_condicao
-		|ELSE {: System.out.print("else "); :} {: System.out.print("\t"); :} codigo {: System.out.println(""); :}
+cod_condicao ::= ELSIF  expr  codigo cod_condicao
+		|ELSE  codigo 
 		|"";
 
-repeticao_for ::= FOR {: System.out.print("for "); :} expr_for {: System.out.print("\t"); :} codigo {: System.out.println(""); :} END_MINUSCULO {: System.out.println("end"); :};// Tem que ter o espcao entre os dois pontos. Ex.: 0 .. 5
+repeticao_for ::= FOR {: System.out.print("FOR"); :} expr_for codigo  END_MINUSCULO;// Tem que ter o espcao entre os dois pontos. Ex.: 0 .. 5
 
-repeticao_while ::= WHILE {: System.out.print("while "); :} expr DO {: System.out.print("\t"); :} codigo {: System.out.println(""); :} END_MINUSCULO {: System.out.println("end"); :};
+repeticao_while ::= WHILE {: System.out.print("WHILE"); :} expr DO codigo END_MINUSCULO;
 
-funcao ::= DEF {: System.out.print("def "); :} IDENTIFICADOR PARENTESE_ABERTURA identificadores_funcao PARENTESE_FECHAMENTO {: System.out.print("\t"); :} codigo {: System.out.println(""); :} END_MINUSCULO {: System.out.println("end"); :};
+funcao ::= DEF {: System.out.print("\n DEF"); :} IDENTIFICADOR PARENTESE_ABERTURA identificadores_funcao PARENTESE_FECHAMENTO codigo END_MINUSCULO;
 
-classe ::= CLASS {: System.out.print("class "); :} IDENTIFICADOR {: System.out.print("\t"); :} codigo {: System.out.println(""); :} END_MINUSCULO {: System.out.println("end"); :} ;
+classe ::= CLASS {: System.out.print("CLASS \n"); :} IDENTIFICADOR codigo END_MINUSCULO;
 
 
 //Gramaticas complementares
@@ -87,20 +93,20 @@ expr ::= arg  MAIOR {: System.out.print(" > "); :} arg
 		| arg MENOR {: System.out.print(" < "); :} arg
 		;
 		
-expr_for ::= IDENTIFICADOR:id {: System.out.print("" + id); :} IN {: System.out.print(" in "); :} NUMERO:num {: System.out.print("" + num); :} DOIS_PONTOS2 {: System.out.print(" .. "); :} NUMERO:num1 {: System.out.print("" + num1); :};
+expr_for ::= IDENTIFICADOR {: System.out.print(" IDENTIFICADOR "); :} IN {: System.out.print(" IN "); :} NUMERO {: System.out.print(" NUMERO"); :} DOIS_PONTOS2 {: System.out.print(" .. "); :} NUMERO {: System.out.print("NUMERO \n"); :};
 
-identificadores_funcao ::= IDENTIFICADOR:id {: System.out.print("" + id); :} VIRGULA {: System.out.print(", "); :} identificadores_funcao
-		| IDENTIFICADOR:id {: System.out.print("" + id); :};
+identificadores_funcao ::= IDENTIFICADOR {: System.out.print("IDENTIFICADOR"); :} VIRGULA {: System.out.print(", "); :} identificadores_funcao
+		| IDENTIFICADOR {: System.out.print("IDENTIFICADOR"); :};
 		
-arg ::= IDENTIFICADOR:id {: System.out.print("" + id); :} |  NUMERO:num {: System.out.print("" + num); :};
+arg ::= IDENTIFICADOR {: System.out.print("IDENTIFICADOR"); :} |  NUMERO {: System.out.print("NUMERO"); :};
 
-variavel ::= IDENTIFICADOR:id {: System.out.print("" + id); :} ATRIBUICAO {: System.out.print(" = "); :} NUMERO:num {: System.out.println("" + num); :} | STRING:str {: System.out.println("" + str); :};
-
-
+variavel ::= IDENTIFICADOR {: System.out.print("IDENTIFICADOR"); :} ATRIBUICAO {: System.out.print(" = "); :} NUMERO {: System.out.println("NUMERO"); :} | STRING {: System.out.println("STRING"); :};
 
 
 
-// Express�es matem�ticas
+
+
+// Express�es matem�ticas
 /*expre_matematica ::= expressao:e {: System.out.println("Resultado = "+e); :}  pcoma;
 
 expressao ::= expressao:e1 MAIS expressao:e2 {: RESULT = new Integer(e1.intValue()+e2.intValue()); :}

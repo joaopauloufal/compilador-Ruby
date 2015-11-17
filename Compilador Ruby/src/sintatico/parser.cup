@@ -62,7 +62,7 @@ precedence left VEZES, BARRA;
 
 /*  Declaracao da gramatica  */
 
-program ::= codigo;
+program ::= codigo {: System.out.print("\n"); :};
 codigo ::= condicao codigo
 		| repeticao_for codigo
 		| repeticao_while codigo
@@ -75,17 +75,17 @@ codigo ::= condicao codigo
 //Gramaticas Condicao, repeticao_for, repeticao_while, funcao, classe
 condicao ::= IF expr codigo {: System.out.println("CONDIÇÃO"); :} cod_condicao END_MINUSCULO;// Funcionando sem o QUEBRA_DE_LINHA
 
-cod_condicao ::= ELSIF  expr  codigo cod_condicao
+cod_condicao ::= ELSIF  expr codigo cod_condicao
 		|ELSE  codigo 
 		|"";
 
 repeticao_for ::= FOR {: System.out.print("FOR"); :} expr_for codigo  END_MINUSCULO;// Tem que ter o espcao entre os dois pontos. Ex.: 0 .. 5
 
-repeticao_while ::= WHILE {: System.out.print("WHILE"); :} expr DO codigo END_MINUSCULO;
+repeticao_while ::= WHILE {: System.out.print(" WHILE "); :} expr DO {: System.out.print("\n"); :} codigo END_MINUSCULO;
 
-funcao ::= DEF {: System.out.print("\n DEF"); :} IDENTIFICADOR PARENTESE_ABERTURA identificadores_funcao PARENTESE_FECHAMENTO codigo END_MINUSCULO;
+funcao ::= DEF {: System.out.print("\nDEF"); :} IDENTIFICADOR PARENTESE_ABERTURA identificadores_funcao PARENTESE_FECHAMENTO codigo END_MINUSCULO;
 
-classe ::= CLASS {: System.out.print("CLASS \n"); :} IDENTIFICADOR codigo END_MINUSCULO;
+classe ::= CLASS {: System.out.print("CLASS "); :} IDENTIFICADOR codigo END_MINUSCULO;
 
 
 //Gramaticas complementares
@@ -95,12 +95,12 @@ expr ::= arg  MAIOR {: System.out.print(" > "); :} arg
 		
 expr_for ::= IDENTIFICADOR {: System.out.print(" IDENTIFICADOR "); :} IN {: System.out.print(" IN "); :} NUMERO {: System.out.print(" NUMERO"); :} DOIS_PONTOS2 {: System.out.print(" .. "); :} NUMERO {: System.out.print("NUMERO \n"); :};
 
-identificadores_funcao ::= IDENTIFICADOR {: System.out.print("IDENTIFICADOR"); :} VIRGULA {: System.out.print(", "); :} identificadores_funcao
-		| IDENTIFICADOR {: System.out.print("IDENTIFICADOR"); :};
+identificadores_funcao ::= IDENTIFICADOR {: System.out.print(" IDENTIFICADOR"); :} VIRGULA {: System.out.print(", "); :} identificadores_funcao
+		| IDENTIFICADOR {: System.out.print(" IDENTIFICADOR"); :};
 		
 arg ::= IDENTIFICADOR {: System.out.print("IDENTIFICADOR"); :} |  NUMERO {: System.out.print("NUMERO"); :};
 
-variavel ::= IDENTIFICADOR {: System.out.print("IDENTIFICADOR"); :} ATRIBUICAO {: System.out.print(" = "); :} NUMERO {: System.out.println("NUMERO"); :} | STRING {: System.out.println("STRING"); :};
+variavel ::= IDENTIFICADOR {: System.out.print(" IDENTIFICADOR"); :} ATRIBUICAO {: System.out.print(" = "); :} NUMERO {: System.out.println("NUMERO"); :} | STRING {: System.out.println("STRING"); :};
 
 
 

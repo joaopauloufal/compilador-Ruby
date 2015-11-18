@@ -2,14 +2,16 @@ package app;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Stack;
 
 import lexico.RubyLexer;
-
 import sintatico.RubyParser;
 
 public class Main {
 
 	public static void main(String[] args) {
+		
+		
 		
 		/*
 		

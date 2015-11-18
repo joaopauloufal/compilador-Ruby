@@ -1,21 +1,20 @@
 for i in 0 .. 5
-a = 666
+	a = 666
 end
 
-class Restaurante
 
-	def method_name (var1, var2)
-	   a = 8
-	   if x > 2
-		   c = 99999
-		else
-			y = 99999
-	   end
-	   while i < num do
-		  a = 9
-	   end
-	end
+def method_name (var1, var2)
+   a = 8
+   if x > 2
+	   c = 99999
+	else
+		y = 99999
+   end
+   while i < num do
+	  a = 9
+   end
 end
+
 
 x=1
 
@@ -26,9 +25,16 @@ else
 end
 
 if x > 2
+
+	if x > 2
 	for i in 0 .. 5
 		a = 666
-	end
+	endd
+end
+
+for i in 0 .. 5
+	a = 666
+end
 
 elsif x > 2
    c = 99999

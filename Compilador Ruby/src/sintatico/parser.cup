@@ -25,13 +25,9 @@ parser code /**Código para erros de sintaxe.*/
 action code
 {:
 
-  int inc = 0;
-
-  public String quebraDeLinha(){
+  public String tab = " ";
   
-  	return "\n";
   
-  }
 :}
 
 
@@ -63,12 +59,12 @@ precedence left VEZES, BARRA;
 /*  Declaracao da gramatica  */
 
 program ::= codigo;
-codigo ::= condicao codigo
-		| repeticao_for codigo
-		| repeticao_while codigo
-		| funcao codigo
-		| classe codigo		
-		| variavel codigo
+codigo ::= condicao codigo {: tab = tab + " "; :}
+		| repeticao_for codigo {: tab = tab + " "; :}
+		| repeticao_while codigo {: tab = tab + " "; :}
+		| funcao codigo {: tab = tab + " "; :}
+		| classe codigo	{: tab = tab + " "; :}	
+		| variavel codigo {: tab = tab + " "; :}
 		| "";
 
 
@@ -79,11 +75,11 @@ cod_condicao ::= {: System.out.print("ELSIF"); :} ELSIF expr {: System.out.print
 		| {: System.out.print("ELSE"); :} ELSE {: System.out.print("\n |-- "); :} codigo 
 		|"";
 
-repeticao_for ::= FOR {: System.out.print("FOR"); :} expr_for {: System.out.print("\n |--"); :} codigo END_MINUSCULO;// Tem que ter o espcao entre os dois pontos. Ex.: 0 .. 5
+repeticao_for ::= FOR {: System.out.print("FOR"); :} expr_for {: System.out.print("\n |-- "); :} codigo END_MINUSCULO;// Tem que ter o espcao entre os dois pontos. Ex.: 0 .. 5
 
 repeticao_while ::= WHILE {: System.out.print("WHILE"); :} expr DO {: System.out.print("\n |-- "); :} codigo END_MINUSCULO;
 
-funcao ::= DEF {: System.out.print("DEF"); :} IDENTIFICADOR  PARENTESE_ABERTURA {: System.out.print("("); :} identificadores_funcao PARENTESE_FECHAMENTO {: System.out.print(")"); :} {: System.out.print("\n |-- "); :} codigo END_MINUSCULO;
+funcao ::= DEF {: System.out.print("DEF"); :} IDENTIFICADOR  PARENTESE_ABERTURA {: System.out.print("("); :} identificadores_funcao PARENTESE_FECHAMENTO {: System.out.print(")"); :} {: System.out.print("\n |-- "); :}  codigo END_MINUSCULO;
 
 classe ::= CLASS {: System.out.print("CLASS "); :} IDENTIFICADOR {: System.out.print("\n |-- "); :} codigo END_MINUSCULO;
 
